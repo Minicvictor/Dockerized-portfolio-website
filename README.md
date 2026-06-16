@@ -220,14 +220,6 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS   
 
 -----
 
-> **How to add screenshots:**
-> 
-> 1. Create a `screenshots/` folder in the repo root.
-> 1. Take your screenshots and save them as `01-docker-images.png`, `02-docker-ps.png`, and `03-browser-portfolio.png`.
-> 1. The image links above will render them automatically on GitHub.
-
------
-
 ## 7. Challenges Encountered
 
 ### Challenge 1 — Port already in use
