@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # Pull latest code
-            cd /home/ubuntu/dockerized-portfolio-website
+            cd /home/ubuntu/Dockerized-portfolio-website
             git pull origin main
 
             # Stop and remove old container if it exists
