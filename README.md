@@ -258,3 +258,60 @@ Also stopped and removed the old container before starting a fresh one.
 -----
 
 *Built with Docker · Served by Nginx ·*
+
+-----
+
+## CI/CD Pipeline – Portfolio Auto-Deployment
+
+This project uses GitHub Actions to automatically deploy my portfolio website
+to an AWS EC2 instance on every push to the `main` branch.
+
+The workflow is defined in `.github/workflows/deploy.yml` and is triggered by
+a `push` event on the main branch. It uses the `appleboy/ssh-action` to
+securely connect to the EC2 instance using an SSH private key stored as a
+GitHub Secret. Once connected, it navigates to the web root, pulls the latest
+code from the repository, and reloads Nginx to serve the updated content.
+
+GitHub Secrets store sensitive values (EC2 host, username, and SSH private key)
+so no credentials are hardcoded in the repository. I encountered a permissions
+issue where the SSH user lacked sudo access to reload Nginx — I resolved this
+by adding a custom sudoers rule via `/etc/sudoers.d/github-actions`.
+
+The pipeline ensures zero-manual-deployment: any approved change merged to
+main is live on the server within seconds.
+
+-----
+
+## CI/CD Workflow diagram
+
+┌─────────────┐     git push      ┌──────────────────┐
+│  Developer  │ ────────────────► │ GitHub Repository │
+│  (Local)    │                   │   (main branch)   │
+└─────────────┘                   └────────┬─────────┘
+                                           │
+                                  Triggers workflow
+                                           │
+                                           ▼
+                                  ┌─────────────────┐
+                                  │  GitHub Actions │
+                                  │    Runner       │
+                                  │  (ubuntu-latest)│
+                                  └────────┬────────┘
+                                           │
+                                    SSH via secrets
+                                           │
+                                           ▼
+                                  ┌─────────────────┐
+                                  │   AWS EC2       │
+                                  │   Instance      │
+                                  └────────┬────────┘
+                                           │
+                               cd /var/www/html
+                               git pull origin main
+                               systemctl reload nginx
+                                           │
+                                           ▼
+                                  ┌─────────────────┐
+                                  │ 🌐 Website      │
+                                  │    Updated!     │
+                                  └─────────────────┘
