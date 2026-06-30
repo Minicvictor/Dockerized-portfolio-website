@@ -282,5 +282,4 @@ main is live on the server within seconds.
 
 -----
 
-## CI/CD Workflow diagram
 
