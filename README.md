@@ -17,7 +17,7 @@
 1. [Run Instructions](#5-run-instructions)
 1. [Verification](#6-verification)
 1. [Challenges Encountered](#7-challenges-encountered)
-
+1. [CI/CD Pipeline](#8-ci/cd-pipeline)
 -----
 
 ## 1. Project Overview
