@@ -284,34 +284,3 @@ main is live on the server within seconds.
 
 ## CI/CD Workflow diagram
 
-┌─────────────┐     git push      ┌──────────────────┐
-│  Developer  │ ────────────────► │ GitHub Repository │
-│  (Local)    │                   │   (main branch)   │
-└─────────────┘                   └────────┬─────────┘
-                                           │
-                                  Triggers workflow
-                                           │
-                                           ▼
-                                  ┌─────────────────┐
-                                  │  GitHub Actions │
-                                  │    Runner       │
-                                  │  (ubuntu-latest)│
-                                  └────────┬────────┘
-                                           │
-                                    SSH via secrets
-                                           │
-                                           ▼
-                                  ┌─────────────────┐
-                                  │   AWS EC2       │
-                                  │   Instance      │
-                                  └────────┬────────┘
-                                           │
-                               cd /var/www/html
-                               git pull origin main
-                               systemctl reload nginx
-                                           │
-                                           ▼
-                                  ┌─────────────────┐
-                                  │ 🌐 Website      │
-                                  │    Updated!     │
-                                  └─────────────────┘
