@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh '''
                 sudo rm -rf /var/www/html/*
-                sudo cp -r . /var/www/html/
+                sudo cp -f index.html /var/www/html/index.html
                 sudo systemctl restart nginx
                 '''
             }
