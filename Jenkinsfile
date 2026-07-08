@@ -1,18 +1,27 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                url: 'https://github.com/Minicvictor/Dockerized-portfolio-website'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Checking downloaded files'
+                sh 'ls -la'
             }
         }
 
         stage('Deploy to Nginx') {
             steps {
-                sh 'sudo rm -rf /var/www/html/*'
-                sh 'sudo cp -r * /var/www/html/'
-                sh 'sudo systemctl restart nginx'
+                sh '''
+                sudo rm -rf /var/www/html/*
+                sudo cp -r . /var/www/html/
+                sudo systemctl restart nginx
+                '''
             }
         }
 
@@ -24,11 +33,7 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'Pipeline finished: SUCCESS - Site deployed'
-        }
-        failure {
-            echo 'Pipeline finished: FAILURE'
-        }
+        success { echo 'Pipeline finished: SUCCESS - Site Deployed' }
+        failure { echo 'Pipeline finished: FAILURE' }
     }
 }
