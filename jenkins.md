@@ -54,8 +54,6 @@ triggered build:
 
 - **Jenkins** — orchestrates the pipeline: pulls the `Jenkinsfile` from
   GitHub, runs each stage, reports build status.
-- **Docker** — builds the nginx:alpine-based image and runs the portfolio
-  site as a container.
 - **GitHub** — hosts the source repository and `Jenkinsfile`; a webhook
   notifies Jenkins on every push.
 - **Blue Ocean** — visual pipeline view for monitoring stage-by-stage
