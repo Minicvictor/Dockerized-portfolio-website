@@ -1,32 +1,34 @@
 pipeline {
-
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo 'Checking out code from GitHub'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Deploy to Nginx') {
             steps {
-                echo 'Building portfolio website'
+                sh 'sudo rm -rf /var/www/html/*'
+                sh 'sudo cp -r * /var/www/html/'
+                sh 'sudo systemctl restart nginx'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Verify') {
             steps {
-                echo 'Installing dependencies'
+                sh 'curl -f http://localhost || exit 1'
             }
         }
+    }
 
-        stage('Run Application') {
-            steps {
-                echo 'Running application'
-            }
+    post {
+        success {
+            echo 'Pipeline finished: SUCCESS - Site deployed'
         }
-
+        failure {
+            echo 'Pipeline finished: FAILURE'
+        }
     }
 }
